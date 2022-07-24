@@ -13,9 +13,11 @@ function App() {
 			};
 	});
 
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(data));
-  }, [data]);
+	const radio = document.querySelectorAll("input[type=radio]");
+
+	useEffect(() => {
+		localStorage.setItem("todos", JSON.stringify(data));
+	}, [data]);
 	const updateData = (e) => {
 		setData({
 			...data,
@@ -42,6 +44,7 @@ function App() {
 		if (!validate()) {
 			return;
 		}
+
 		const obj = {
 			todo: data.toDo,
 			priority: data.priority,
@@ -53,6 +56,10 @@ function App() {
 			...data,
 			toDoList: currentList,
 			toDo: "",
+			priority: "",
+		});
+		radio.forEach((item) => {
+			item.checked = false;
 		});
 	};
 
@@ -66,14 +73,19 @@ function App() {
 	return (
 		<div className="App">
 			<div className="container">
-				<input
-					name="toDo"
-					value={data.toDo}
-					onChange={handleChange}
-					type="text"
-					id="todoInput"
-					placeholder="List down your pending works here"
-				/>
+				<div className="inputTodo">
+					<input
+						name="toDo"
+						value={data.toDo}
+						onChange={handleChange}
+						type="text"
+						id="todoInput"
+						placeholder="List down your pending works here"
+					/>
+					<button onClick={handleSubmit} className="addBtn">
+						+
+					</button>
+				</div>
 				<div className="priority">
 					<div className="priority-label">Priority:</div>
 					<div className="priority-buttons">
@@ -86,18 +98,25 @@ function App() {
 					</div>
 				</div>
 
-				<button onClick={handleSubmit} id="addTodo">
-					Add
-				</button>
 				<ul id="todoList">
-					{data.toDoList.map((el) => (
-						<li key={el.id}>
-							{el.todo} {el.priority}
-							<button onClick={() => handleDelete(el.id)} className="delete">
-								Delete
-							</button>
-						</li>
-					))}
+					{data.toDoList.length > 0 &&
+						data.toDoList.map((el) => (
+							<>
+								<li key={el.id}>
+									<div className="todo-content">
+										<span>Title: {el.todo}</span>
+										<span>Priority: {el.priority}</span>
+									</div>
+
+									<button onClick={() => handleDelete(el.id)} className="deleteBtn">
+										X
+									</button>
+								</li>
+								<div className="divider"></div>
+							</>
+						))}
+
+					{data.toDoList.length === 0 && <div className="demo-content">Congrats! You have no pending works :)</div>}
 				</ul>
 			</div>
 		</div>
