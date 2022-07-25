@@ -73,6 +73,9 @@ function App() {
 	return (
 		<div className="App">
 			<div className="container">
+				<div className="logo">
+					<h1 className="underlined">QuikNotes</h1>
+				</div>
 				<div className="inputTodo">
 					<input
 						name="toDo"
@@ -107,10 +110,11 @@ function App() {
 										<span>Title: {el.todo}</span>
 										<span>Priority: {el.priority}</span>
 									</div>
-
+									<div className="todo-buttons">
 									<button onClick={() => handleDelete(el.id)} className="deleteBtn">
 										X
 									</button>
+									</div>
 								</li>
 								<div className="divider"></div>
 							</>
